@@ -61,5 +61,6 @@
 "please_enter_event_description":"Please Enter Event Description",
 "please_enter_event_date":"Please Enter Event Date",
 "please_enter_event_time":"Please Enter Event Time",
-"no_events_found":"No Events Found"
+"no_events_found":"No Events Found",
+"event_added_successfully":"Event added successfully"
 }

@@ -475,6 +475,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'No Events Found'**
   String get no_events_found;
+
+  /// No description provided for @event_added_successfully.
+  ///
+  /// In en, this message translates to:
+  /// **'Event added successfully'**
+  String get event_added_successfully;
 }
 
 class _AppLocalizationsDelegate

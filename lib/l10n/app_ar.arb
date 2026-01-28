@@ -61,6 +61,7 @@
   "please_enter_event_description": "أدخل وصف الحدث",
   "please_enter_event_date": "أدخل تاريخ الحدث",
   "please_enter_event_time": "أدخل وقت الحدث",
-  "no_events_found":"لا توجد احداث"
+  "no_events_found":"لا توجد احداث",
+  "event_added_successfully":"تم اضافة الحدث بنجاح"
 
 }

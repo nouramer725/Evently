@@ -35,7 +35,7 @@ class SelectedButton extends StatelessWidget {
         ),
         child: Text(
           text,
-          style: AppText.semiBoldText(color: AppColors.white, fontSize: 14),
+          style: AppText.semiBoldText(color: AppColors.white, fontSize: h(14)),
         ),
       ),
     );

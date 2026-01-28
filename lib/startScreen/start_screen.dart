@@ -52,7 +52,7 @@ class StartScreen extends StatelessWidget {
         ),
       ),
       body: Padding(
-        padding: EdgeInsets.symmetric(horizontal: w(16)),
+        padding: EdgeInsets.symmetric(horizontal: w(16), vertical: h(16)),
         child: SingleChildScrollView(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -68,10 +68,13 @@ class StartScreen extends StatelessWidget {
               Text(
                 AppLocalizations.of(context)!.title4,
                 style: themeProvider.isDarkTheme()
-                    ? AppText.semiBoldText(color: AppColors.white, fontSize: 20)
+                    ? AppText.semiBoldText(
+                        color: AppColors.white,
+                        fontSize: sp(20),
+                      )
                     : AppText.semiBoldText(
                         color: AppColors.mainTextColorLight,
-                        fontSize: 20,
+                        fontSize: sp(20),
                       ),
               ),
               Text(
@@ -79,30 +82,31 @@ class StartScreen extends StatelessWidget {
                 style: themeProvider.isDarkTheme()
                     ? AppText.regularText(
                         color: AppColors.secTextColorDark,
-                        fontSize: 16,
+                        fontSize: sp(16),
                       )
                     : AppText.regularText(
                         color: AppColors.secTextColorLight,
-                        fontSize: 16,
+                        fontSize: sp(16),
                       ),
               ),
               Row(
                 spacing: w(5),
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text(
-                    AppLocalizations.of(context)!.language,
-                    style: themeProvider.isDarkTheme()
-                        ? AppText.mediumText(
-                            color: AppColors.white,
-                            fontSize: 18,
-                          )
-                        : AppText.mediumText(
-                            color: AppColors.mainColorLight,
-                            fontSize: 18,
-                          ),
+                  Expanded(
+                    child: Text(
+                      AppLocalizations.of(context)!.language,
+                      style: themeProvider.isDarkTheme()
+                          ? AppText.mediumText(
+                              color: AppColors.white,
+                              fontSize: sp(18),
+                            )
+                          : AppText.mediumText(
+                              color: AppColors.mainColorLight,
+                              fontSize: sp(18),
+                            ),
+                    ),
                   ),
-                  Spacer(),
                   isSelectedEnglish
                       ? SelectedButton(
                           text: AppLocalizations.of(context)!.english,
@@ -114,7 +118,6 @@ class StartScreen extends StatelessWidget {
                           onPressed: () =>
                               languageProvider.changeLanguage('en'),
                         ),
-
                   isSelectedArabic
                       ? SelectedButton(
                           text: AppLocalizations.of(context)!.arabic,
@@ -132,19 +135,20 @@ class StartScreen extends StatelessWidget {
                 spacing: w(5),
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text(
-                    AppLocalizations.of(context)!.theme,
-                    style: themeProvider.isDarkTheme()
-                        ? AppText.mediumText(
-                            color: AppColors.white,
-                            fontSize: 18,
-                          )
-                        : AppText.mediumText(
-                            color: AppColors.mainColorLight,
-                            fontSize: 18,
-                          ),
+                  Expanded(
+                    child: Text(
+                      AppLocalizations.of(context)!.theme,
+                      style: themeProvider.isDarkTheme()
+                          ? AppText.mediumText(
+                              color: AppColors.white,
+                              fontSize: sp(18),
+                            )
+                          : AppText.mediumText(
+                              color: AppColors.mainColorLight,
+                              fontSize: sp(18),
+                            ),
+                    ),
                   ),
-                  Spacer(),
                   isSelectedLight
                       ? SelectedButtonTheme(
                           icon: Icons.light_mode,
@@ -192,7 +196,7 @@ class StartScreen extends StatelessWidget {
                     AppLocalizations.of(context)!.letStart,
                     style: AppText.mediumText(
                       color: AppColors.white,
-                      fontSize: 20,
+                      fontSize: sp(20),
                     ),
                   ),
                 ),

@@ -133,9 +133,9 @@ class _AddEventScreenState extends State<AddEventScreen> {
               spacing: h(15),
               children: [
                 Image(
-                  image: themeProvider.isDarkTheme()
-                      ? AssetImage(eventImagesDarkList[selectedIndex])
-                      : AssetImage(eventImagesLightList[selectedIndex]),
+                  image: AssetImage(
+                    eventImage,
+                  ),
                   fit: BoxFit.fill,
                   height: h(193),
                 ),
@@ -321,6 +321,29 @@ class _AddEventScreenState extends State<AddEventScreen> {
       AppThemeProvider themeProvider,
       ) {
     if (formKey.currentState!.validate() == true) {
+
+      if (selectedDate == null) {
+        Fluttertoast.showToast(
+          msg: AppLocalizations.of(context)!.please_enter_event_date,
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.TOP,
+          backgroundColor: AppColors.redColor,
+          textColor: Colors.white,
+        );
+        return;
+      }
+
+      if (selectedTime == null) {
+        Fluttertoast.showToast(
+          msg: AppLocalizations.of(context)!.please_enter_event_time,
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.TOP,
+          backgroundColor: AppColors.redColor,
+          textColor: Colors.white,
+        );
+        return;
+      }
+
       Event event = Event(
         eventImage: eventImage,
         eventName: eventName,
@@ -335,7 +358,7 @@ class _AddEventScreenState extends State<AddEventScreen> {
           print('Event added successfully');
           eventProvider.getAllDataFromFireBase();
           Fluttertoast.showToast(
-              msg: 'Event added successfully',
+              msg: AppLocalizations.of(context)!.event_added_successfully,
               toastLength: Toast.LENGTH_SHORT,
               gravity: ToastGravity.TOP,
               timeInSecForIosWeb: 1,
@@ -343,7 +366,6 @@ class _AddEventScreenState extends State<AddEventScreen> {
                   ? AppColors.mainColorDark
                   : AppColors.mainColorLight,
               textColor: AppColors.white,
-              fontSize: 20.0,
           );
           Navigator.pop(context);
         },

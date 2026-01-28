@@ -39,7 +39,7 @@ class UnselectedButton extends StatelessWidget {
             color: themeProvider.isDarkTheme()
                 ? AppColors.white
                 : AppColors.mainColorLight,
-            fontSize: 14,
+            fontSize: h(14),
           ),
         ),
       ),

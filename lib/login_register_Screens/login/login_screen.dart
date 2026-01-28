@@ -37,7 +37,7 @@ class LoginScreen extends StatelessWidget {
                   color: themeProvider.isDarkTheme()
                       ? AppColors.white
                       : AppColors.mainColorLight,
-                  fontSize: 24,
+                  fontSize: sp(24),
                 ),
               ),
               CustomTextFormFieldWidget(
@@ -53,13 +53,13 @@ class LoginScreen extends StatelessWidget {
                   color: themeProvider.isDarkTheme()
                       ? AppColors.secTextColorDark
                       : AppColors.secTextColorLight,
-                  fontSize: 14,
+                  fontSize: sp(14),
                 ),
                 prefixIcon: Icon(Icons.email_outlined),
                 prefixIconColor: themeProvider.isDarkTheme()
                     ? AppColors.secTextColorDark
                     : AppColors.secTextColorLight,
-                borderRadius: 16,
+                borderRadius: h(16),
                 borderWidth: 2,
               ),
               CustomTextFormFieldWidget(
@@ -75,13 +75,13 @@ class LoginScreen extends StatelessWidget {
                   color: themeProvider.isDarkTheme()
                       ? AppColors.secTextColorDark
                       : AppColors.secTextColorLight,
-                  fontSize: 14,
+                  fontSize: sp(14),
                 ),
                 prefixIcon: Icon(Icons.lock_open),
                 prefixIconColor: themeProvider.isDarkTheme()
                     ? AppColors.secTextColorDark
                     : AppColors.secTextColorLight,
-                borderRadius: 16,
+                borderRadius: h(16),
                 borderWidth: 2,
                 suffixIcon: Icon(Icons.visibility_off_outlined),
                 suffixIconColor: themeProvider.isDarkTheme()
@@ -93,7 +93,7 @@ class LoginScreen extends StatelessWidget {
                   AppLocalizations.of(context)!.login,
                   style: AppText.mediumText(
                     color: AppColors.white,
-                    fontSize: 20,
+                    fontSize: sp(20),
                   ),
                 ),
                 onPressed: () {
@@ -140,7 +140,7 @@ class LoginScreen extends StatelessWidget {
                             color: themeProvider.isDarkTheme()
                                 ? AppColors.mainColorDark
                                 : AppColors.mainColorLight,
-                            fontSize: 14,
+                            fontSize: sp(14),
                           ).copyWith(
                             decoration: TextDecoration.underline,
                             decorationColor: themeProvider.isDarkTheme()
@@ -155,13 +155,16 @@ class LoginScreen extends StatelessWidget {
                 spacing: w(5),
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Text(
-                    AppLocalizations.of(context)!.dont_have_an_account,
-                    style: AppText.regularText(
-                      color: themeProvider.isDarkTheme()
-                          ? AppColors.secTextColorDark
-                          : AppColors.secTextColorLight,
-                      fontSize: 14,
+                  Flexible(
+                    child: Text(
+                      textAlign: TextAlign.center,
+                      AppLocalizations.of(context)!.dont_have_an_account,
+                      style: AppText.regularText(
+                        color: themeProvider.isDarkTheme()
+                            ? AppColors.secTextColorDark
+                            : AppColors.secTextColorLight,
+                        fontSize: sp(14),
+                      ),
                     ),
                   ),
                   TextButton(
@@ -194,7 +197,7 @@ class LoginScreen extends StatelessWidget {
                             color: themeProvider.isDarkTheme()
                                 ? AppColors.mainColorDark
                                 : AppColors.mainColorLight,
-                            fontSize: 14,
+                            fontSize: sp(14),
                           ).copyWith(
                             decoration: TextDecoration.underline,
                             decorationColor: themeProvider.isDarkTheme()
@@ -222,7 +225,7 @@ class LoginScreen extends StatelessWidget {
                       color: themeProvider.isDarkTheme()
                           ? AppColors.mainColorDark
                           : AppColors.mainColorLight,
-                      fontSize: 16,
+                      fontSize: sp(16),
                     ),
                   ),
                   Expanded(
@@ -242,13 +245,16 @@ class LoginScreen extends StatelessWidget {
                   spacing: w(10),
                   children: [
                     Image.asset(AppAssets.googleIcon),
-                    Text(
-                      AppLocalizations.of(context)!.login_with_google,
-                      style: AppText.mediumText(
-                        color: themeProvider.isDarkTheme()
-                            ? AppColors.mainColorDark
-                            : AppColors.mainColorLight,
-                        fontSize: 20,
+                    Expanded(
+                      child: Text(
+                        textAlign: TextAlign.center,
+                        AppLocalizations.of(context)!.login_with_google,
+                        style: AppText.mediumText(
+                          color: themeProvider.isDarkTheme()
+                              ? AppColors.mainColorDark
+                              : AppColors.mainColorLight,
+                          fontSize: sp(20),
+                        ),
                       ),
                     ),
                   ],
