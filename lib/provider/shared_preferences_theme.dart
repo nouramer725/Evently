@@ -16,7 +16,7 @@ class SharedPreferencesTheme {
     if (theme == 'dark') return ThemeMode.dark;
     if (theme == 'light') return ThemeMode.light;
 
-    return ThemeMode.system;
+    return ThemeMode.light;
   }
 
 
