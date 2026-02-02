@@ -203,4 +203,32 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get event_added_successfully => 'Event added successfully';
+
+  @override
+  String get no_favourite_item_found => 'No Favourite Item Found';
+
+  @override
+  String get please_enter_email => 'Please Enter a valid Email';
+
+  @override
+  String get please_enter_password => 'Please Enter a valid Password';
+
+  @override
+  String get please_enter_name => 'Please Enter a valid Name';
+
+  @override
+  String get please_enter_confirm_password =>
+      'Please Enter a valid Confirm Password';
+
+  @override
+  String get at_least_6_char => 'Password should be at least 6 characters';
+
+  @override
+  String get password_not_match => 'Password not match the confirm password';
+
+  @override
+  String get login_success => 'Login Successfully';
+
+  @override
+  String get register_success => 'Registered Successfully';
 }

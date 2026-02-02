@@ -202,5 +202,32 @@ class AppLocalizationsAr extends AppLocalizations {
   String get no_events_found => 'لا توجد احداث';
 
   @override
-  String get event_added_successfully => 'تم اضافة الحدث بنجاح';
+  String get event_added_successfully => 'تم إضافة الحدث بنجاح';
+
+  @override
+  String get no_favourite_item_found => 'لم يتم العثور على عناصر مفضلة';
+
+  @override
+  String get please_enter_email => 'من فضلك أدخل بريد إلكتروني صالح';
+
+  @override
+  String get please_enter_password => 'من فضلك أدخل كلمة مرور صالحة';
+
+  @override
+  String get please_enter_name => 'من فضلك أدخل اسم صالح';
+
+  @override
+  String get please_enter_confirm_password => 'من فضلك أدخل تأكيد كلمة المرور';
+
+  @override
+  String get at_least_6_char => 'يجب أن تكون كلمة المرور 6 أحرف على الأقل';
+
+  @override
+  String get password_not_match => 'كلمة المرور لا تطابق تأكيد كلمة المرور';
+
+  @override
+  String get login_success => 'تم تسجيل الدخول بنجاح';
+
+  @override
+  String get register_success => 'تم التسجيل بنجاح';
 }

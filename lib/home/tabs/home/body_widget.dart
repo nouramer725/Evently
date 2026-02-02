@@ -1,9 +1,9 @@
 import 'package:evently_app/Models/event_model.dart';
-import 'package:evently_app/utils/app_assets.dart';
 import 'package:evently_app/utils/app_text.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
+import '../../../provider/app_firebase_provider.dart';
 import '../../../provider/app_theme_provider.dart';
 import '../../../utils/app_colors.dart';
 import '../../../utils/responsive.dart';
@@ -15,6 +15,7 @@ class BodyWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var themeProvider = Provider.of<AppThemeProvider>(context);
+    var eventProvider = Provider.of<AppFirebaseProvider>(context);
 
     return Container(
       width: double.infinity,
@@ -23,9 +24,7 @@ class BodyWidget extends StatelessWidget {
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(16),
         image: DecorationImage(
-          image: AssetImage(
-            event.eventImage
-          ),
+          image: AssetImage(event.eventImage),
           fit: BoxFit.fill,
         ),
       ),
@@ -86,9 +85,13 @@ class BodyWidget extends StatelessWidget {
                 ),
                 Spacer(),
                 IconButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    eventProvider.updateIsFavourite(event,);
+                  },
                   icon: Icon(
-                    Icons.favorite,
+                    event.isFavourite
+                        ? Icons.favorite
+                        : Icons.favorite_border_outlined,
                     color: themeProvider.isDarkTheme()
                         ? AppColors.mainColorDark
                         : AppColors.mainColorLight,

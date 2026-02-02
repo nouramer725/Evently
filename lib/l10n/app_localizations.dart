@@ -481,6 +481,60 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Event added successfully'**
   String get event_added_successfully;
+
+  /// No description provided for @no_favourite_item_found.
+  ///
+  /// In en, this message translates to:
+  /// **'No Favourite Item Found'**
+  String get no_favourite_item_found;
+
+  /// No description provided for @please_enter_email.
+  ///
+  /// In en, this message translates to:
+  /// **'Please Enter a valid Email'**
+  String get please_enter_email;
+
+  /// No description provided for @please_enter_password.
+  ///
+  /// In en, this message translates to:
+  /// **'Please Enter a valid Password'**
+  String get please_enter_password;
+
+  /// No description provided for @please_enter_name.
+  ///
+  /// In en, this message translates to:
+  /// **'Please Enter a valid Name'**
+  String get please_enter_name;
+
+  /// No description provided for @please_enter_confirm_password.
+  ///
+  /// In en, this message translates to:
+  /// **'Please Enter a valid Confirm Password'**
+  String get please_enter_confirm_password;
+
+  /// No description provided for @at_least_6_char.
+  ///
+  /// In en, this message translates to:
+  /// **'Password should be at least 6 characters'**
+  String get at_least_6_char;
+
+  /// No description provided for @password_not_match.
+  ///
+  /// In en, this message translates to:
+  /// **'Password not match the confirm password'**
+  String get password_not_match;
+
+  /// No description provided for @login_success.
+  ///
+  /// In en, this message translates to:
+  /// **'Login Successfully'**
+  String get login_success;
+
+  /// No description provided for @register_success.
+  ///
+  /// In en, this message translates to:
+  /// **'Registered Successfully'**
+  String get register_success;
 }
 
 class _AppLocalizationsDelegate

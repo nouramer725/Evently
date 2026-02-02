@@ -2,8 +2,6 @@ import 'package:evently_app/home/tabs/home/AppBarWidget%202/tab_item2.dart';
 import 'package:evently_app/utils/responsive.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-
-import '../AppBarWidget 1/tab_item.dart';
 import '../../../../l10n/app_localizations.dart';
 import '../../../../provider/app_language_provider.dart';
 import '../../../../provider/app_theme_provider.dart';

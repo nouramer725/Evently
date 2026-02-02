@@ -62,6 +62,15 @@
   "please_enter_event_date": "أدخل تاريخ الحدث",
   "please_enter_event_time": "أدخل وقت الحدث",
   "no_events_found":"لا توجد احداث",
-  "event_added_successfully":"تم اضافة الحدث بنجاح"
+  "event_added_successfully": "تم إضافة الحدث بنجاح",
+  "no_favourite_item_found": "لم يتم العثور على عناصر مفضلة",
+  "please_enter_email": "من فضلك أدخل بريد إلكتروني صالح",
+  "please_enter_password": "من فضلك أدخل كلمة مرور صالحة",
+  "please_enter_name": "من فضلك أدخل اسم صالح",
+  "please_enter_confirm_password": "من فضلك أدخل تأكيد كلمة المرور",
+  "at_least_6_char": "يجب أن تكون كلمة المرور 6 أحرف على الأقل",
+  "password_not_match": "كلمة المرور لا تطابق تأكيد كلمة المرور",
+  "login_success": "تم تسجيل الدخول بنجاح",
+  "register_success": "تم التسجيل بنجاح"
 
 }

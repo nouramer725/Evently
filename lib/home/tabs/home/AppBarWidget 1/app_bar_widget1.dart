@@ -28,15 +28,6 @@ class _AppBarWidget1State extends State<AppBarWidget1> {
     var languageProvider = Provider.of<AppLanguageProvider>(context);
     var eventProvider = Provider.of<AppFirebaseProvider>(context);
 
-    List<String> eventNameList = [
-      AppLocalizations.of(context)!.all,
-      AppLocalizations.of(context)!.sport,
-      AppLocalizations.of(context)!.birthday,
-      AppLocalizations.of(context)!.exhibition,
-      AppLocalizations.of(context)!.meeting,
-      AppLocalizations.of(context)!.book_club,
-    ];
-
     List<IconData> eventIconList = [
       Icons.grid_view_rounded,
       Icons.directions_bike,
@@ -46,6 +37,7 @@ class _AppBarWidget1State extends State<AppBarWidget1> {
       Icons.menu_book,
     ];
 
+    eventProvider.getEventNameList(context);
     return AppBar(
       toolbarHeight: h(150),
       centerTitle: false,
@@ -114,10 +106,10 @@ class _AppBarWidget1State extends State<AppBarWidget1> {
             ],
           ),
           DefaultTabController(
-            length: eventNameList.length,
+            length: eventProvider.eventsNameList.length,
             child: TabBar(
               onTap: (index) {
-                eventProvider.changeIndex(index, eventNameList);
+                eventProvider.changeIndex(index);
               },
               isScrollable: true,
               dividerColor: AppColors.transparentColor,
@@ -125,13 +117,13 @@ class _AppBarWidget1State extends State<AppBarWidget1> {
               padding: EdgeInsets.zero,
               tabAlignment: TabAlignment.start,
               labelPadding: EdgeInsets.symmetric(horizontal: w(5)),
-              tabs: List.generate(eventNameList.length, (index) {
+              tabs: List.generate(eventProvider.eventsNameList.length, (index) {
                 return TabItem(
                   widget: eventIconList[index],
-                  text: eventNameList[index],
+                  text: eventProvider.eventsNameList[index],
                   isSelected: eventProvider.selectedIndex == index,
                 );
-              }).toList()
+              }).toList(),
             ),
           ),
         ],

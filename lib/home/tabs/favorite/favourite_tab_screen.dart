@@ -3,17 +3,34 @@ import 'package:evently_app/widgets/custom_text_form_field_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../../l10n/app_localizations.dart';
+import '../../../provider/app_firebase_provider.dart';
 import '../../../provider/app_theme_provider.dart';
 import '../../../utils/app_colors.dart';
 import '../../../utils/responsive.dart';
 import '../home/body_widget.dart';
 
-class FavouriteTabScreen extends StatelessWidget {
+class FavouriteTabScreen extends StatefulWidget {
   const FavouriteTabScreen({super.key});
+
+  @override
+  State<FavouriteTabScreen> createState() => _FavouriteTabScreenState();
+}
+
+class _FavouriteTabScreenState extends State<FavouriteTabScreen> {
+  late AppFirebaseProvider eventProvider;
+  @override
+  void initState() {
+    // TODO: implement initState
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      eventProvider.getFavouriteEvents();
+    });
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
     var themeProvider = Provider.of<AppThemeProvider>(context);
+    eventProvider = Provider.of<AppFirebaseProvider>(context);
 
     return Scaffold(
       appBar: AppBar(
@@ -50,15 +67,27 @@ class FavouriteTabScreen extends StatelessWidget {
           ),
         ),
       ),
-      // body: ListView.separated(
-      //   itemBuilder: (context, index) {
-      //     return BodyWidget();
-      //   },
-      //   separatorBuilder: (context, index) {
-      //     return SizedBox(height: h(15));
-      //   },
-      //   itemCount: 5,
-      // ),
+      body: eventProvider.favouriteList.isEmpty
+          ? Center(
+              child: Text(
+                AppLocalizations.of(context)!.no_favourite_item_found,
+                style: AppText.boldText(
+                  color: themeProvider.isDarkTheme()
+                      ? AppColors.mainTextColorDark
+                      : AppColors.mainTextColorLight,
+                  fontSize: 20,
+                ),
+              ),
+            )
+          : ListView.separated(
+              itemBuilder: (context, index) {
+                return BodyWidget(event: eventProvider.favouriteList[index]);
+              },
+              separatorBuilder: (context, index) {
+                return SizedBox(height: h(15));
+              },
+              itemCount: eventProvider.favouriteList.length,
+            ),
     );
   }
 }

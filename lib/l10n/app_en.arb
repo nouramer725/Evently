@@ -62,5 +62,15 @@
 "please_enter_event_date":"Please Enter Event Date",
 "please_enter_event_time":"Please Enter Event Time",
 "no_events_found":"No Events Found",
-"event_added_successfully":"Event added successfully"
+"event_added_successfully":"Event added successfully",
+"no_favourite_item_found":"No Favourite Item Found",
+"please_enter_email":"Please Enter a valid Email",
+"please_enter_password":"Please Enter a valid Password",
+"please_enter_name":"Please Enter a valid Name",
+"please_enter_confirm_password":"Please Enter a valid Confirm Password",
+"at_least_6_char":"Password should be at least 6 characters",
+"password_not_match":"Password not match the confirm password",
+"login_success":"Login Successfully",
+"register_success":"Registered Successfully"
+
 }
