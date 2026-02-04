@@ -230,4 +230,20 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get register_success => 'تم التسجيل بنجاح';
+
+  @override
+  String get loading => 'جاري التحميل...';
+
+  @override
+  String get no_user_found => 'لا يوجد مستخدم بهذا البريد الإلكتروني.';
+
+  @override
+  String get wrong_password => 'كلمة المرور غير صحيحة لهذا المستخدم.';
+
+  @override
+  String get account_already_exist =>
+      'الحساب موجود بالفعل لهذا البريد الإلكتروني.';
+
+  @override
+  String get weak_password => 'كلمة المرور المُدخلة ضعيفة.';
 }

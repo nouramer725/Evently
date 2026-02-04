@@ -8,6 +8,7 @@ import '../../utils/app_assets.dart';
 import '../../utils/app_colors.dart';
 import '../../utils/app_routes.dart';
 import '../../utils/app_text.dart';
+import '../../utils/custom_flutter_toast.dart';
 import '../../utils/responsive.dart';
 import '../../widgets/custom_elevated_button_widget.dart';
 import '../../widgets/custom_text_form_field_widget.dart';
@@ -347,31 +348,50 @@ class RegisterScreen extends StatelessWidget {
   void register(BuildContext context) async {
     try {
       if (formKey.currentState!.validate()) {
+        CustomFlutterToast.loadingToast(
+          context,
+          Colors.orange,
+          Colors.white,
+          ToastGravity.TOP,
+        );
         final credential = await FirebaseAuth.instance
             .createUserWithEmailAndPassword(
               email: emailController.text,
               password: passwordController.text,
             );
-        Fluttertoast.showToast(
-          msg: AppLocalizations.of(context)!.register_success,
-          toastLength: Toast.LENGTH_SHORT,
-          gravity: ToastGravity.TOP,
-          timeInSecForIosWeb: 1,
-          backgroundColor: Colors.green,
-          textColor: Colors.white,
+        CustomFlutterToast.successToast(
+          context,
+          Colors.green,
+          Colors.white,
+          ToastGravity.TOP,
+          AppLocalizations.of(context)!.register_success,
         );
-        // Navigator.pushNamedAndRemoveUntil(
-        //   context,
-        //   AppRoutes.homeScreenName,
-        //       (route) => false,
-        // );
-        // }
+        Duration(seconds: 5);
+        Navigator.pushNamedAndRemoveUntil(
+          context,
+          AppRoutes.loginScreenName,
+              (route) => false,
+        );
       }
     } on FirebaseAuthException catch (e) {
       if (e.code == 'weak-password') {
+        CustomFlutterToast.failToast(
+          context,
+          Colors.red,
+          Colors.white,
+          ToastGravity.TOP,
+          AppLocalizations.of(context)!.weak_password,
+        );
         print('The password provided is too weak.');
       } else if (e.code == 'email-already-in-use') {
         print('The account already exists for that email.');
+        CustomFlutterToast.failToast(
+          context,
+          Colors.red,
+          Colors.white,
+          ToastGravity.TOP,
+          AppLocalizations.of(context)!.account_already_exist,
+        );
       }
     } catch (e) {
       print(e.toString());

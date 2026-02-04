@@ -71,6 +71,10 @@
 "at_least_6_char":"Password should be at least 6 characters",
 "password_not_match":"Password not match the confirm password",
 "login_success":"Login Successfully",
-"register_success":"Registered Successfully"
-
+"register_success":"Registered Successfully",
+"loading":"Loading...",
+"no_user_found":"No user found for that email.",
+"wrong_password":"Wrong password provided for that user.",
+"account_already_exist":"The account already exists for that email.",
+"weak_password":"The password provided is too weak."
 }

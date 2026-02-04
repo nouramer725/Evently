@@ -231,4 +231,20 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get register_success => 'Registered Successfully';
+
+  @override
+  String get loading => 'Loading...';
+
+  @override
+  String get no_user_found => 'No user found for that email.';
+
+  @override
+  String get wrong_password => 'Wrong password provided for that user.';
+
+  @override
+  String get account_already_exist =>
+      'The account already exists for that email.';
+
+  @override
+  String get weak_password => 'The password provided is too weak.';
 }

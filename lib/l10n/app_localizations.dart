@@ -535,6 +535,36 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Registered Successfully'**
   String get register_success;
+
+  /// No description provided for @loading.
+  ///
+  /// In en, this message translates to:
+  /// **'Loading...'**
+  String get loading;
+
+  /// No description provided for @no_user_found.
+  ///
+  /// In en, this message translates to:
+  /// **'No user found for that email.'**
+  String get no_user_found;
+
+  /// No description provided for @wrong_password.
+  ///
+  /// In en, this message translates to:
+  /// **'Wrong password provided for that user.'**
+  String get wrong_password;
+
+  /// No description provided for @account_already_exist.
+  ///
+  /// In en, this message translates to:
+  /// **'The account already exists for that email.'**
+  String get account_already_exist;
+
+  /// No description provided for @weak_password.
+  ///
+  /// In en, this message translates to:
+  /// **'The password provided is too weak.'**
+  String get weak_password;
 }
 
 class _AppLocalizationsDelegate

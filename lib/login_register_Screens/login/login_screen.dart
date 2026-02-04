@@ -3,6 +3,7 @@ import 'package:evently_app/utils/app_assets.dart';
 import 'package:evently_app/utils/app_colors.dart';
 import 'package:evently_app/utils/app_routes.dart';
 import 'package:evently_app/utils/app_text.dart';
+import 'package:evently_app/utils/custom_flutter_toast.dart';
 import 'package:evently_app/utils/responsive.dart';
 import 'package:evently_app/widgets/custom_elevated_button_widget.dart';
 import 'package:evently_app/widgets/custom_text_form_field_widget.dart';
@@ -314,33 +315,62 @@ class LoginScreen extends StatelessWidget {
   void login(BuildContext context) async {
     if (formKey.currentState!.validate()) {
       try {
+        CustomFlutterToast.loadingToast(
+          context,
+          Colors.orange,
+          Colors.white,
+          ToastGravity.TOP,
+        );
         final credential = await FirebaseAuth.instance
             .signInWithEmailAndPassword(
               email: emailController.text,
               password: passwordController.text,
             );
-        Fluttertoast.showToast(
-          msg: AppLocalizations.of(context)!.login_success,
-          toastLength: Toast.LENGTH_SHORT,
-          gravity: ToastGravity.TOP,
-          timeInSecForIosWeb: 1,
-          backgroundColor: Colors.green,
-          textColor: Colors.white,
+        CustomFlutterToast.successToast(
+          context,
+          Colors.green,
+          Colors.white,
+          ToastGravity.TOP,
+          AppLocalizations.of(context)!.login_success,
+        );
+        Duration(seconds: 10);
+        Navigator.pushNamedAndRemoveUntil(
+          context,
+          AppRoutes.homeScreenName,
+              (route) => false,
         );
       } on FirebaseAuthException catch (e) {
         if (e.code == 'user-not-found') {
+          CustomFlutterToast.failToast(
+            context,
+            Colors.red,
+            Colors.white,
+            ToastGravity.TOP,
+            AppLocalizations.of(context)!.no_user_found,
+          );
           print('No user found for that email.');
         } else if (e.code == 'wrong-password') {
+          CustomFlutterToast.failToast(
+            context,
+            Colors.red,
+            Colors.white,
+            ToastGravity.TOP,
+            AppLocalizations.of(context)!.wrong_password,
+          );
           print('Wrong password provided for that user.');
+        } else {
+          CustomFlutterToast.failToast(
+            context,
+            Colors.red,
+            Colors.white,
+            ToastGravity.TOP,
+            AppLocalizations.of(context)!.no_user_found,
+          );
         }
       } catch (e) {
         print(e.toString());
+        print(e);
       }
-      // Navigator.pushNamedAndRemoveUntil(
-      //   context,
-      //   AppRoutes.homeScreenName,
-      //   (route) => false,
-      // );
     }
   }
 }
