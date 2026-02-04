@@ -45,6 +45,10 @@ class AppAssets {
   static const String profileIconUnSelected =
       'assets/images/user_unselected.png';
   static const String logOutIcon = 'assets/images/logout-02.png';
+  static const String editIconLight = 'assets/images/edit-2.png';
+  static const String editIconDark = 'assets/images/edit_dark.png';
+  static const String deleteIconLight = 'assets/images/trash.png';
+  static const String deleteIconDark = 'assets/images/trash_dark.png';
 
   static const String googleIcon = 'assets/images/google_icon.png';
 }

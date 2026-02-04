@@ -1,9 +1,13 @@
+import 'package:evently_app/utils/firebase_utils.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:provider/provider.dart';
+import '../../Models/my_user.dart';
 import '../../l10n/app_localizations.dart';
+import '../../provider/app_firebase_provider.dart';
 import '../../provider/app_theme_provider.dart';
+import '../../provider/user_provider.dart';
 import '../../utils/app_assets.dart';
 import '../../utils/app_colors.dart';
 import '../../utils/app_routes.dart';
@@ -359,6 +363,28 @@ class RegisterScreen extends StatelessWidget {
               email: emailController.text,
               password: passwordController.text,
             );
+
+        /// save for home with provider
+        var userProvider = Provider.of<UserProvider>(context, listen: false);
+        MyUser myUser = MyUser(
+          id: credential.user?.uid ?? "",
+          name: nameController.text,
+          email: emailController.text,
+        );
+        userProvider.updateUser(myUser);
+
+        /// get all events depend on index
+        var eventProvider = Provider.of<AppFirebaseProvider>(
+          context,
+          listen: false,
+        );
+        eventProvider.changeIndex(0, userProvider.currentUser!.id);
+        eventProvider.getAllDataFromFireBase(userProvider.currentUser!.id);
+
+        /// save in firestore
+        await FirebaseUtils.addUserToFirestore(myUser);
+
+        ///success registration
         CustomFlutterToast.successToast(
           context,
           Colors.green,
@@ -370,7 +396,7 @@ class RegisterScreen extends StatelessWidget {
         Navigator.pushNamedAndRemoveUntil(
           context,
           AppRoutes.loginScreenName,
-              (route) => false,
+          (route) => false,
         );
       }
     } on FirebaseAuthException catch (e) {

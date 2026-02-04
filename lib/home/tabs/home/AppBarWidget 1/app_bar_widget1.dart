@@ -1,3 +1,4 @@
+import 'package:evently_app/provider/user_provider.dart';
 import 'package:evently_app/utils/responsive.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -27,6 +28,7 @@ class _AppBarWidget1State extends State<AppBarWidget1> {
     var themeProvider = Provider.of<AppThemeProvider>(context);
     var languageProvider = Provider.of<AppLanguageProvider>(context);
     var eventProvider = Provider.of<AppFirebaseProvider>(context);
+    var userProvider = Provider.of<UserProvider>(context);
 
     List<IconData> eventIconList = [
       Icons.grid_view_rounded,
@@ -59,7 +61,7 @@ class _AppBarWidget1State extends State<AppBarWidget1> {
                     ),
                   ),
                   Text(
-                    "Nour Muhammed",
+                    userProvider.currentUser!.name,
                     style: AppText.regularText(
                       color: themeProvider.isDarkTheme()
                           ? AppColors.mainTextColorDark
@@ -109,7 +111,7 @@ class _AppBarWidget1State extends State<AppBarWidget1> {
             length: eventProvider.eventsNameList.length,
             child: TabBar(
               onTap: (index) {
-                eventProvider.changeIndex(index);
+                eventProvider.changeIndex(index, userProvider.currentUser!.id);
               },
               isScrollable: true,
               dividerColor: AppColors.transparentColor,

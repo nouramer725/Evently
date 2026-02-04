@@ -6,6 +6,7 @@ import 'package:provider/provider.dart';
 import '../../../l10n/app_localizations.dart';
 import '../../../provider/app_language_provider.dart';
 import '../../../provider/app_theme_provider.dart';
+import '../../../provider/user_provider.dart';
 import '../../../utils/app_assets.dart';
 import '../../../utils/app_colors.dart';
 import '../../../utils/responsive.dart';
@@ -26,6 +27,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
   Widget build(BuildContext context) {
     var languageProvider = Provider.of<AppLanguageProvider>(context);
     var themeProvider = Provider.of<AppThemeProvider>(context);
+    var userProvider = Provider.of<UserProvider>(context);
 
     final brightness = MediaQuery.of(context).platformBrightness;
     final bool systemIsDark = brightness == Brightness.dark;
@@ -45,7 +47,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
               backgroundImage: AssetImage(AppAssets.routeLogo),
             ),
             Text(
-              "John Doe",
+              userProvider.currentUser!.name,
               style: themeProvider.isDarkTheme()
                   ? AppText.semiBoldText(color: AppColors.white, fontSize: 20)
                   : AppText.semiBoldText(
@@ -54,7 +56,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     ),
             ),
             Text(
-              "johnsafwat.route@gmail.com",
+              userProvider.currentUser!.email,
               style: themeProvider.isDarkTheme()
                   ? AppText.regularText(
                       color: AppColors.secTextColorDark,
@@ -107,7 +109,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
               text: AppLocalizations.of(context)!.logout,
               onTap: () {
                 Navigator.of(context).pushNamedAndRemoveUntil(
-                  AppRoutes.startScreenName,
+                  AppRoutes.loginScreenName,
                   (route) => false,
                 );
               },

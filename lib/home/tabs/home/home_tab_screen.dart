@@ -1,7 +1,8 @@
 import 'package:evently_app/home/tabs/home/AppBarWidget%201/app_bar_widget1.dart';
-import 'package:evently_app/home/tabs/home/body_widget.dart';
+import 'package:evently_app/home/tabs/home/Event%20Items/body_widget.dart';
 import 'package:evently_app/l10n/app_localizations.dart';
 import 'package:evently_app/provider/app_firebase_provider.dart';
+import 'package:evently_app/provider/user_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../../provider/app_theme_provider.dart';
@@ -21,9 +22,10 @@ class _HomeTabScreenState extends State<HomeTabScreen> {
   Widget build(BuildContext context) {
     var eventProvider = Provider.of<AppFirebaseProvider>(context);
     var themeProvider = Provider.of<AppThemeProvider>(context);
+    var userProvider = Provider.of<UserProvider>(context);
 
     if (eventProvider.eventList.isEmpty) {
-      eventProvider.getAllDataFromFireBase();
+      eventProvider.getAllDataFromFireBase(userProvider.currentUser!.id);
     }
     return Scaffold(
       appBar: AppBarWidget1(),

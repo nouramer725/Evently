@@ -1,3 +1,4 @@
+import 'package:evently_app/provider/user_provider.dart';
 import 'package:evently_app/utils/app_text.dart';
 import 'package:evently_app/widgets/custom_text_form_field_widget.dart';
 import 'package:flutter/material.dart';
@@ -7,7 +8,7 @@ import '../../../provider/app_firebase_provider.dart';
 import '../../../provider/app_theme_provider.dart';
 import '../../../utils/app_colors.dart';
 import '../../../utils/responsive.dart';
-import '../home/body_widget.dart';
+import '../home/Event Items/body_widget.dart';
 
 class FavouriteTabScreen extends StatefulWidget {
   const FavouriteTabScreen({super.key});
@@ -18,11 +19,12 @@ class FavouriteTabScreen extends StatefulWidget {
 
 class _FavouriteTabScreenState extends State<FavouriteTabScreen> {
   late AppFirebaseProvider eventProvider;
+  late UserProvider userProvider;
   @override
   void initState() {
     // TODO: implement initState
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      eventProvider.getFavouriteEvents();
+      eventProvider.getFavouriteEvents(userProvider.currentUser!.id);
     });
     super.initState();
   }
@@ -31,6 +33,7 @@ class _FavouriteTabScreenState extends State<FavouriteTabScreen> {
   Widget build(BuildContext context) {
     var themeProvider = Provider.of<AppThemeProvider>(context);
     eventProvider = Provider.of<AppFirebaseProvider>(context);
+    userProvider = Provider.of<UserProvider>(context);
 
     return Scaffold(
       appBar: AppBar(

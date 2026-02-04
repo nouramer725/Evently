@@ -1,0 +1,118 @@
+import 'package:evently_app/Models/event_model.dart';
+import 'package:evently_app/provider/user_provider.dart';
+import 'package:evently_app/utils/app_text.dart';
+import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
+import '../../../../provider/app_firebase_provider.dart';
+import '../../../../provider/app_theme_provider.dart';
+import '../../../../utils/app_colors.dart';
+import '../../../../utils/app_routes.dart';
+import '../../../../utils/responsive.dart';
+
+class BodyWidget extends StatelessWidget {
+  final Event event;
+  const BodyWidget({super.key, required this.event});
+
+  @override
+  Widget build(BuildContext context) {
+    var themeProvider = Provider.of<AppThemeProvider>(context);
+    var eventProvider = Provider.of<AppFirebaseProvider>(context);
+    var userProvider = Provider.of<UserProvider>(context);
+
+    return InkWell(
+      onTap: () {
+        Navigator.of(context).pushNamed(
+            AppRoutes.detailsScreen,
+          arguments: event.id
+        );
+      },
+      child: Container(
+        width: double.infinity,
+        height: h(193),
+        margin: EdgeInsets.symmetric(horizontal: w(16)),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(16),
+          image: DecorationImage(
+            image: AssetImage(event.eventImage),
+            fit: BoxFit.fill,
+          ),
+        ),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Container(
+              margin: EdgeInsets.symmetric(horizontal: w(10), vertical: h(10)),
+              padding: EdgeInsets.symmetric(horizontal: w(10), vertical: h(7)),
+              decoration: BoxDecoration(
+                color: themeProvider.isDarkTheme()
+                    ? AppColors.backgroundColorDark
+                    : AppColors.backgroundColorLight,
+                border: Border.all(
+                  color: themeProvider.isDarkTheme()
+                      ? AppColors.strokeColorDark
+                      : AppColors.strokeColorLight,
+                  width: 2,
+                ),
+                borderRadius: BorderRadius.circular(8),
+              ),
+              child: Text(
+                DateFormat('d MMM').format(event.eventDate),
+                style: AppText.semiBoldText(
+                  color: themeProvider.isDarkTheme()
+                      ? AppColors.mainColorDark
+                      : AppColors.mainColorLight,
+                  fontSize: 16,
+                ),
+              ),
+            ),
+            Container(
+              margin: EdgeInsets.symmetric(horizontal: w(10), vertical: h(10)),
+              padding: EdgeInsets.symmetric(horizontal: w(10)),
+              decoration: BoxDecoration(
+                color: themeProvider.isDarkTheme()
+                    ? AppColors.backgroundColorDark
+                    : AppColors.backgroundColorLight,
+                border: Border.all(
+                  color: themeProvider.isDarkTheme()
+                      ? AppColors.strokeColorDark
+                      : AppColors.strokeColorLight,
+                  width: 2,
+                ),
+                borderRadius: BorderRadius.circular(8),
+              ),
+              child: Row(
+                children: [
+                  Text(
+                    event.eventTitle,
+                    style: AppText.mediumText(
+                      color: themeProvider.isDarkTheme()
+                          ? AppColors.white
+                          : AppColors.black,
+                      fontSize: 14,
+                    ),
+                  ),
+                  Spacer(),
+                  IconButton(
+                    onPressed: () {
+                      eventProvider.updateIsFavourite(event,userProvider.currentUser!.id);
+                    },
+                    icon: Icon(
+                      event.isFavourite
+                          ? Icons.favorite
+                          : Icons.favorite_border_outlined,
+                      color: themeProvider.isDarkTheme()
+                          ? AppColors.mainColorDark
+                          : AppColors.mainColorLight,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}

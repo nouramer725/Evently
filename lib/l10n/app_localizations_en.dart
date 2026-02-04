@@ -247,4 +247,29 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get weak_password => 'The password provided is too weak.';
+
+  @override
+  String get please_fill_all_fields => 'Please Fill All Fields';
+
+  @override
+  String get event_updated_successfully => 'Event updated successfully';
+
+  @override
+  String get event_deleted_successfully => 'Event deleted successfully';
+
+  @override
+  String get confirm_delete => 'Confirm Delete';
+
+  @override
+  String get are_you_sure_delete_event =>
+      'Are you sure you want to delete this event?';
+
+  @override
+  String get cancel => 'Cancel';
+
+  @override
+  String get delete => 'Delete';
+
+  @override
+  String get error_deleting_event => 'Error deleting event';
 }

@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+
 class Event {
   ///Event Collection
   static const String eventsCollection = 'Events';
@@ -32,9 +34,11 @@ class Event {
         eventName: data['eventName'],
         eventTitle: data['eventTitle'],
         eventDescription: data['eventDescription'],
-        eventDate: DateTime.fromMillisecondsSinceEpoch(data['eventDate']),
+        eventDate: data['eventDate'] is Timestamp
+            ? (data['eventDate'] as Timestamp).toDate()
+            : DateTime.fromMillisecondsSinceEpoch(data['eventDate']),
         eventTime: data['eventTime'],
-        isFavourite: data['isFavourite'],
+        isFavourite: data['isFavourite'] ?? false,
       );
 
   /// object => json

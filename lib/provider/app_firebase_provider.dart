@@ -21,19 +21,18 @@ class AppFirebaseProvider extends ChangeNotifier {
     ];
   }
 
-  void getAllDataFromFireBase() async {
-    var querySnapshot = await FirebaseUtils.getEventsCollections()
-        .orderBy('eventDate')
-        .get();
-    eventList = querySnapshot.docs.map((doc) {
-      return doc.data();
-    }).toList();
+  Future<void> getAllDataFromFireBase(String uId) async {
+    var querySnapshot = await FirebaseUtils.getEventsCollections(
+      uId,
+    ).orderBy('eventDate').get();
+
+    eventList = querySnapshot.docs.map((doc) => doc.data()).toList();
     filterList = eventList;
     notifyListeners();
   }
 
-  void getFilterEventsDataFromFireBase() async {
-    var querySnapshot = await FirebaseUtils.getEventsCollections()
+  Future<void> getFilterEventsDataFromFireBase(String uId) async {
+    var querySnapshot = await FirebaseUtils.getEventsCollections(uId)
         .orderBy('eventDate')
         .where('eventName', isEqualTo: eventsNameList[selectedIndex])
         .get();
@@ -43,17 +42,17 @@ class AppFirebaseProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  void changeIndex(int newIndex) {
+  void changeIndex(int newIndex, String uId) {
     selectedIndex = newIndex;
     if (selectedIndex == 0) {
-      getAllDataFromFireBase();
+      getAllDataFromFireBase(uId);
     } else {
-      getFilterEventsDataFromFireBase();
+      getFilterEventsDataFromFireBase(uId);
     }
   }
 
-  void updateIsFavourite(Event event) {
-    FirebaseUtils.getEventsCollections()
+  void updateIsFavourite(Event event, String uId) {
+    FirebaseUtils.getEventsCollections(uId)
         .doc(event.id)
         .update({'isFavourite': !event.isFavourite})
         .timeout(
@@ -61,20 +60,59 @@ class AppFirebaseProvider extends ChangeNotifier {
           onTimeout: () {
             print('event updated successfully');
             selectedIndex == 0
-                ? getAllDataFromFireBase()
-                : getFilterEventsDataFromFireBase();
-            getFavouriteEvents();
+                ? getAllDataFromFireBase(uId)
+                : getFilterEventsDataFromFireBase(uId);
+            getFavouriteEvents(uId);
           },
         );
   }
 
-  void getFavouriteEvents() async {
-    var querySnapshot = await FirebaseUtils.getEventsCollections()
-        .where('isFavourite', isEqualTo: true)
-        .get();
+  void getFavouriteEvents(String uId) async {
+    var querySnapshot = await FirebaseUtils.getEventsCollections(
+      uId,
+    ).where('isFavourite', isEqualTo: true).get();
     favouriteList = querySnapshot.docs.map((doc) {
       return doc.data();
     }).toList();
+    selectedIndex = 0;
+    getFavouriteEvents(uId);
     notifyListeners();
+  }
+
+  Future<void> updateEventData(Event event, String uId) async {
+    try {
+      await FirebaseUtils.getEventsCollections(uId).doc(event.id).update({
+        'eventTitle': event.eventTitle,
+        'eventDescription': event.eventDescription,
+        'eventDate': event.eventDate,
+        'eventTime': event.eventTime,
+        'eventName': event.eventName,
+        'eventImage': event.eventImage,
+      });
+
+      print('Event updated successfully');
+
+      selectedIndex == 0
+          ? getAllDataFromFireBase(uId)
+          : getFilterEventsDataFromFireBase(uId);
+    } catch (e) {
+      print('Error updating event: $e');
+    }
+  }
+
+  Future<void> deleteEventData(Event event, String uId) async {
+    try {
+      await FirebaseUtils.getEventsCollections(uId).doc(event.id).delete();
+      print('Event deleted successfully');
+      selectedIndex == 0
+          ? getAllDataFromFireBase(uId)
+          : getFilterEventsDataFromFireBase(uId);
+      getFavouriteEvents(uId);
+    } catch (e) {
+      print('Error deleting event: $e');
+      selectedIndex == 0
+          ? getAllDataFromFireBase(uId)
+          : getFilterEventsDataFromFireBase(uId);
+    }
   }
 }

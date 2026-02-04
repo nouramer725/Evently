@@ -11,7 +11,10 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:provider/provider.dart';
+import '../../provider/app_firebase_provider.dart';
 import '../../provider/app_theme_provider.dart';
+import '../../provider/user_provider.dart';
+import '../../utils/firebase_utils.dart';
 
 class LoginScreen extends StatelessWidget {
   LoginScreen({super.key});
@@ -326,6 +329,28 @@ class LoginScreen extends StatelessWidget {
               email: emailController.text,
               password: passwordController.text,
             );
+
+        ///Read user from fireStore
+        var user = await FirebaseUtils.readUserFromFirestore(
+          credential.user!.uid,
+        );
+        if (user == null) {
+          return;
+        }
+
+        ///save User to go home
+        var userProvider = Provider.of<UserProvider>(context, listen: false);
+        userProvider.updateUser(user);
+
+        /// get all events depend on index
+        var eventProvider = Provider.of<AppFirebaseProvider>(
+          context,
+          listen: false,
+        );
+        eventProvider.changeIndex(0, userProvider.currentUser!.id);
+        eventProvider.getAllDataFromFireBase( userProvider.currentUser!.id);
+
+        /// Success login
         CustomFlutterToast.successToast(
           context,
           Colors.green,
@@ -333,11 +358,11 @@ class LoginScreen extends StatelessWidget {
           ToastGravity.TOP,
           AppLocalizations.of(context)!.login_success,
         );
-        Duration(seconds: 10);
+        Future.delayed(Duration(seconds: 5));
         Navigator.pushNamedAndRemoveUntil(
           context,
           AppRoutes.homeScreenName,
-              (route) => false,
+          (route) => false,
         );
       } on FirebaseAuthException catch (e) {
         if (e.code == 'user-not-found') {

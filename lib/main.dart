@@ -1,9 +1,9 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:evently_app/provider/app_firebase_provider.dart';
 import 'package:evently_app/provider/app_language_provider.dart';
 import 'package:evently_app/provider/app_theme_provider.dart';
 import 'package:evently_app/provider/shared_preferences_language.dart';
 import 'package:evently_app/provider/shared_preferences_theme.dart';
+import 'package:evently_app/provider/user_provider.dart';
 import 'package:evently_app/startScreen/start_screen.dart';
 import 'package:evently_app/utils/app_routes.dart';
 import 'package:evently_app/utils/app_theme.dart';
@@ -14,6 +14,8 @@ import 'package:provider/provider.dart';
 import 'firebase_options.dart';
 import 'home/AddEvent/add_event_screen.dart';
 import 'home/home_screen.dart';
+import 'home/tabs/home/Event Items/details_screen.dart';
+import 'home/tabs/home/Event Items/edit_screen.dart';
 import 'l10n/app_localizations.dart';
 import 'login_register_Screens/forget_password/forget_password_screen.dart';
 import 'login_register_Screens/login/login_screen.dart';
@@ -23,7 +25,7 @@ import 'onBoarding/onboarding_screen.dart';
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
-  await FirebaseFirestore.instance.disableNetwork();
+  // await FirebaseFirestore.instance.disableNetwork();
 
   ///offline
   await SharedPreferencesLanguage.init();
@@ -34,6 +36,7 @@ Future<void> main() async {
         ChangeNotifierProvider(create: (_) => AppLanguageProvider()),
         ChangeNotifierProvider(create: (_) => AppThemeProvider()),
         ChangeNotifierProvider(create: (_) => AppFirebaseProvider()),
+        ChangeNotifierProvider(create: (_) => UserProvider()),
       ],
       child: const MyApp(),
     ),
@@ -57,7 +60,7 @@ class MyApp extends StatelessWidget {
       theme: AppTheme.lightTheme,
       darkTheme: AppTheme.darkTheme,
       debugShowCheckedModeBanner: false,
-      initialRoute: AppRoutes.loginScreenName,
+      initialRoute: AppRoutes.startScreenName,
       routes: {
         AppRoutes.startScreenName: (context) => StartScreen(),
         AppRoutes.onBoardingScreenName: (context) => OnboardingScreen(),
@@ -66,6 +69,8 @@ class MyApp extends StatelessWidget {
         AppRoutes.forgetPasswordScreenName: (context) => ForgetPasswordScreen(),
         AppRoutes.homeScreenName: (context) => HomeScreen(),
         AppRoutes.addEventScreenName: (context) => AddEventScreen(),
+        AppRoutes.detailsScreen: (context) => DetailsScreen(),
+        AppRoutes.editScreen: (context) => EditScreen(),
       },
     );
   }

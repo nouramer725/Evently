@@ -1,95 +1,117 @@
-import 'package:evently_app/Models/event_model.dart';
-import 'package:evently_app/home/AddEvent/row_widget.dart';
-import 'package:evently_app/utils/app_assets.dart';
-import 'package:evently_app/utils/firebase_utils.dart';
-import 'package:evently_app/widgets/custom_elevated_button_widget.dart';
-import 'package:evently_app/widgets/custom_text_form_field_widget.dart';
+import 'package:evently_app/utils/custom_flutter_toast.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
-import '../../l10n/app_localizations.dart';
-import '../../provider/app_firebase_provider.dart';
-import '../../provider/app_theme_provider.dart';
-import '../../provider/user_provider.dart';
-import '../../utils/app_colors.dart';
-import '../../utils/app_text.dart';
-import '../../utils/responsive.dart';
-import '../tabs/home/AppBarWidget 1/tab_item.dart';
+import '../../../../Models/event_model.dart';
+import '../../../../l10n/app_localizations.dart';
+import '../../../../provider/app_firebase_provider.dart';
+import '../../../../provider/app_theme_provider.dart';
+import '../../../../utils/app_assets.dart';
+import '../../../../utils/app_colors.dart';
+import '../../../../utils/app_routes.dart';
+import '../../../../utils/app_text.dart';
+import '../../../../utils/responsive.dart';
+import '../../../../widgets/custom_elevated_button_widget.dart';
+import '../../../../widgets/custom_text_form_field_widget.dart';
+import '../../../AddEvent/row_widget.dart';
+import '../AppBarWidget 1/tab_item.dart';
 
-class AddEventScreen extends StatefulWidget {
-  const AddEventScreen({super.key});
+class EditScreen extends StatefulWidget {
+  const EditScreen({super.key});
 
   @override
-  State<AddEventScreen> createState() => _AddEventScreenState();
+  State<EditScreen> createState() => _EditScreenState();
 }
 
-class _AddEventScreenState extends State<AddEventScreen> {
-  int selectedIndex = 0;
-  String title = '';
-  String description = '';
-  var formKey = GlobalKey<FormState>();
+class _EditScreenState extends State<EditScreen> {
+  final formKey = GlobalKey<FormState>();
   DateTime? selectedDate;
-  String formatDate = '';
   TimeOfDay? selectedTime;
-  String formatTime = '';
-  String eventImage = '';
-  String eventName = '';
-  String? dateError;
-  String? timeError;
-  late AppFirebaseProvider eventProvider;
-  late UserProvider userProvider;
+  int selectedIndex = 0;
+  String formatDate = '';
+
+  late TextEditingController titleController;
+  late TextEditingController descriptionController;
+
+  late Event event;
+
+  late List<String> eventNameList;
+  late List<String> eventImagesLightList;
+  late List<String> eventImagesDarkList;
+  late List<IconData> eventIconList;
 
   @override
   void initState() {
-    // TODO: implement initState
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      eventProvider.getAllDataFromFireBase(userProvider.currentUser!.id);
-    });
     super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      final args = ModalRoute.of(context)!.settings.arguments;
+      final eventProvider = Provider.of<AppFirebaseProvider>(
+        context,
+        listen: false,
+      );
+
+      event = eventProvider.eventList.firstWhere(
+        (element) => element.id == args,
+      );
+
+      eventNameList = [
+        AppLocalizations.of(context)!.sport,
+        AppLocalizations.of(context)!.birthday,
+        AppLocalizations.of(context)!.exhibition,
+        AppLocalizations.of(context)!.meeting,
+        AppLocalizations.of(context)!.book_club,
+      ];
+
+      eventIconList = [
+        Icons.directions_bike,
+        Icons.cake,
+        Icons.museum,
+        Icons.groups,
+        Icons.menu_book,
+      ];
+
+      eventImagesLightList = [
+        AppAssets.sport,
+        AppAssets.birthday,
+        AppAssets.exhibition,
+        AppAssets.meeting,
+        AppAssets.bookClub,
+      ];
+
+      eventImagesDarkList = [
+        AppAssets.sportDark,
+        AppAssets.birthdayDark,
+        AppAssets.exhibitionDark,
+        AppAssets.meetingDark,
+        AppAssets.bookClubDark,
+      ];
+
+      selectedIndex = eventNameList.indexOf(event.eventName);
+
+      titleController = TextEditingController(text: event.eventTitle);
+      descriptionController = TextEditingController(
+        text: event.eventDescription,
+      );
+
+      setState(() {});
+    });
   }
+
+  String get currentEventImage {
+    final themeProvider = Provider.of<AppThemeProvider>(context, listen: false);
+    return themeProvider.isDarkTheme()
+        ? eventImagesDarkList[selectedIndex]
+        : eventImagesLightList[selectedIndex];
+  }
+
+  String get currentEventName => eventNameList[selectedIndex];
 
   @override
   Widget build(BuildContext context) {
-    var themeProvider = Provider.of<AppThemeProvider>(context);
-    eventProvider = Provider.of<AppFirebaseProvider>(context);
-
-    List<String> eventNameList = [
-      AppLocalizations.of(context)!.sport,
-      AppLocalizations.of(context)!.birthday,
-      AppLocalizations.of(context)!.exhibition,
-      AppLocalizations.of(context)!.meeting,
-      AppLocalizations.of(context)!.book_club,
-    ];
-
-    List<IconData> eventIconList = [
-      Icons.directions_bike,
-      Icons.cake,
-      Icons.museum,
-      Icons.groups,
-      Icons.menu_book,
-    ];
-
-    List<String> eventImagesLightList = [
-      AppAssets.sport,
-      AppAssets.birthday,
-      AppAssets.exhibition,
-      AppAssets.meeting,
-      AppAssets.bookClub,
-    ];
-
-    List<String> eventImagesDarkList = [
-      AppAssets.sportDark,
-      AppAssets.birthdayDark,
-      AppAssets.exhibitionDark,
-      AppAssets.meetingDark,
-      AppAssets.bookClubDark,
-    ];
-
-    eventImage = themeProvider.isDarkTheme()
-        ? eventImagesDarkList[selectedIndex]
-        : eventImagesLightList[selectedIndex];
-    eventName = eventNameList[selectedIndex];
+    final themeProvider = Provider.of<AppThemeProvider>(context);
+    final eventProvider = Provider.of<AppFirebaseProvider>(context);
 
     return Scaffold(
       appBar: AppBar(
@@ -118,7 +140,7 @@ class _AddEventScreenState extends State<AddEventScreen> {
           ),
         ),
         title: Text(
-          AppLocalizations.of(context)!.add_event,
+          AppLocalizations.of(context)!.edit_event,
           style: AppText.mediumText(
             color: themeProvider.isDarkTheme()
                 ? AppColors.white
@@ -136,13 +158,15 @@ class _AddEventScreenState extends State<AddEventScreen> {
               crossAxisAlignment: CrossAxisAlignment.stretch,
               spacing: h(15),
               children: [
-                Image(
-                  image: AssetImage(eventImage),
+                Image.asset(
+                  currentEventImage,
                   fit: BoxFit.fill,
                   height: h(193),
                 ),
+
                 DefaultTabController(
                   length: eventNameList.length,
+                  initialIndex: selectedIndex,
                   child: TabBar(
                     onTap: (index) {
                       setState(() {
@@ -164,6 +188,7 @@ class _AddEventScreenState extends State<AddEventScreen> {
                     }),
                   ),
                 ),
+
                 Text(
                   AppLocalizations.of(context)!.title,
                   style: AppText.mediumText(
@@ -175,17 +200,14 @@ class _AddEventScreenState extends State<AddEventScreen> {
                 ),
                 CustomTextFormFieldWidget(
                   filled: true,
-                  onChanged: (newValue) {
-                    title = newValue;
-                  },
+                  controller: titleController,
                   validator: (value) {
                     if (value == null || value.trim().isEmpty) {
                       return AppLocalizations.of(
                         context,
                       )!.please_enter_event_title;
-                    } else {
-                      return null;
                     }
+                    return null;
                   },
                   fillColor: themeProvider.isDarkTheme()
                       ? AppColors.inputsColorDark
@@ -202,6 +224,7 @@ class _AddEventScreenState extends State<AddEventScreen> {
                       : AppColors.strokeColorLight,
                   borderWidth: 2,
                 ),
+
                 Text(
                   AppLocalizations.of(context)!.description,
                   style: AppText.mediumText(
@@ -214,17 +237,14 @@ class _AddEventScreenState extends State<AddEventScreen> {
                 CustomTextFormFieldWidget(
                   filled: true,
                   maxLines: 5,
-                  onChanged: (newValue) {
-                    description = newValue;
-                  },
+                  controller: descriptionController,
                   validator: (value) {
                     if (value == null || value.trim().isEmpty) {
                       return AppLocalizations.of(
                         context,
                       )!.please_enter_event_description;
-                    } else {
-                      return null;
                     }
+                    return null;
                   },
                   fillColor: themeProvider.isDarkTheme()
                       ? AppColors.inputsColorDark
@@ -243,30 +263,63 @@ class _AddEventScreenState extends State<AddEventScreen> {
                 ),
                 RowWidget(
                   text: AppLocalizations.of(context)!.event_date,
-                  errorText: dateError,
                   chooseText: selectedDate == null
-                      ? AppLocalizations.of(context)!.choose_date
-                      : formatDate,
-                  onPressed: () {
-                    chooseDate();
-                  },
+                      ? DateFormat('MMM d, yyyy').format(event.eventDate)
+                      : DateFormat('MMM d, yyyy').format(selectedDate!),
+                  onPressed: chooseDate,
                   icon: Icons.date_range_outlined,
                 ),
+
                 RowWidget(
                   text: AppLocalizations.of(context)!.event_time,
-                  chooseText: selectedTime == null
-                      ? AppLocalizations.of(context)!.choose_time
-                      : formatTime,
-                  onPressed: () {
-                    chooseTime();
-                  },
-                  errorText: timeError,
+                  chooseText: selectedTime != null
+                      ? selectedTime!.format(context)
+                      : event.eventTime,
+                  onPressed: chooseTime,
                   icon: Icons.access_time_outlined,
                 ),
+
                 CustomElevatedButtonWidget(
-                  widget: Text(AppLocalizations.of(context)!.add_event),
-                  onPressed: () {
-                    addEvent(themeProvider);
+                  widget: Text(AppLocalizations.of(context)!.update_event),
+                  onPressed: () async {
+                    final user = FirebaseAuth.instance.currentUser;
+                    if (user == null) return;
+                    final uId = user.uid;
+
+                    await eventProvider.updateEventData(
+                      Event(
+                        id: event.id,
+                        eventTitle: titleController.text,
+                        eventDescription: descriptionController.text,
+                        eventDate: selectedDate ?? event.eventDate,
+                        eventTime: selectedTime != null
+                            ? selectedTime!.format(context)
+                            : event.eventTime,
+                        eventName: currentEventName,
+                        eventImage: currentEventImage,
+                      ),
+                      uId,
+                    );
+
+                    CustomFlutterToast.successToast(
+                      context,
+                      themeProvider.isDarkTheme()
+                          ? AppColors.mainColorDark
+                          : AppColors.mainColorLight,
+                      AppColors.white,
+                      ToastGravity.TOP,
+                      AppLocalizations.of(context)!.event_updated_successfully,
+                    );
+
+                    eventProvider.changeIndex(0,uId);
+
+                    await eventProvider.getAllDataFromFireBase(uId);
+
+                    Navigator.pushNamedAndRemoveUntil(
+                      context,
+                      AppRoutes.homeScreenName,
+                      (route) => false,
+                    );
                   },
                 ),
               ],
@@ -277,15 +330,14 @@ class _AddEventScreenState extends State<AddEventScreen> {
     );
   }
 
-  /// try easy date picker
   void chooseDate() async {
     final isDark = Theme.of(context).brightness == Brightness.dark;
 
     var chooseDate = await showDatePicker(
       context: context,
-      initialDate: DateTime.now(),
+      initialDate: selectedDate ?? DateTime.now(),
       firstDate: DateTime.now(),
-      lastDate: DateTime.now().add(Duration(days: 1000)),
+      lastDate: DateTime.now().add(const Duration(days: 1000)),
       builder: (context, child) {
         return Theme(
           data: Theme.of(context).copyWith(
@@ -310,88 +362,15 @@ class _AddEventScreenState extends State<AddEventScreen> {
   }
 
   Future<void> chooseTime() async {
-    var chooseTime = showTimePicker(
+    final picked = await showTimePicker(
       context: context,
-      initialTime: TimeOfDay.now(),
+      initialTime: selectedTime ?? TimeOfDay.now(),
     );
-    selectedTime = await chooseTime;
-    if (selectedTime != null) {
-      formatTime = selectedTime!.format(context);
-    }
-    setState(() {});
-  }
 
-  void addEvent(AppThemeProvider themeProvider) async {
-    dateError = null;
-    timeError = null;
-
-    bool hasError = false;
-
-    if (!formKey.currentState!.validate()) {
-      hasError = true;
-    }
-
-    if (title.trim().isEmpty) {
-      hasError = true;
-    }
-
-    if (description.trim().isEmpty) {
-      hasError = true;
-    }
-
-    if (selectedDate == null) {
-      dateError = AppLocalizations.of(context)!.please_enter_event_date;
-      hasError = true;
-    }
-
-    if (selectedTime == null) {
-      timeError = AppLocalizations.of(context)!.please_enter_event_time;
-      hasError = true;
-    }
-
-    if (hasError) {
-      setState(() {});
-      return;
-    }
-
-    try {
-      Event event = Event(
-        eventImage: eventImage,
-        eventName: eventName,
-        eventTitle: title,
-        eventDescription: description,
-        eventDate: selectedDate!,
-        eventTime: formatTime,
-      );
-
-      var userProvider = Provider.of<UserProvider>(context, listen: false);
-
-      await FirebaseUtils.addEventToFirestore(
-        event,
-        userProvider.currentUser!.id,
-      );
-
-      Fluttertoast.showToast(
-        msg: AppLocalizations.of(context)!.event_added_successfully,
-        backgroundColor: themeProvider.isDarkTheme()
-            ? AppColors.mainColorDark
-            : AppColors.mainColorLight,
-        textColor: AppColors.white,
-        toastLength: Toast.LENGTH_SHORT,
-        gravity: ToastGravity.TOP,
-      );
-
-      eventProvider.changeIndex(0, userProvider.currentUser!.id);
-
-      await eventProvider.getAllDataFromFireBase(userProvider.currentUser!.id);
-
-      Navigator.pop(context);
-    } catch (e) {
-      Fluttertoast.showToast(
-        msg: "Failed to add event ❌",
-        backgroundColor: Colors.red,
-      );
-      print(e);
+    if (picked != null) {
+      setState(() {
+        selectedTime = picked;
+      });
     }
   }
 }

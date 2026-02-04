@@ -246,4 +246,29 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get weak_password => 'كلمة المرور المُدخلة ضعيفة.';
+
+  @override
+  String get please_fill_all_fields => 'يرجى ملء جميع الحقول';
+
+  @override
+  String get event_updated_successfully => 'تم تحديث الحدث بنجاح';
+
+  @override
+  String get event_deleted_successfully => 'تم حذف الحدث بنجاح';
+
+  @override
+  String get confirm_delete => 'تأكيد الحذف';
+
+  @override
+  String get are_you_sure_delete_event =>
+      'هل أنت متأكد أنك تريد حذف هذا الحدث؟';
+
+  @override
+  String get cancel => 'إلغاء';
+
+  @override
+  String get delete => 'حذف';
+
+  @override
+  String get error_deleting_event => 'حدث خطأ أثناء حذف الحدث';
 }

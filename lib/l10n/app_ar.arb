@@ -76,5 +76,16 @@
   "no_user_found":"لا يوجد مستخدم بهذا البريد الإلكتروني.",
   "wrong_password":"كلمة المرور غير صحيحة لهذا المستخدم.",
   "account_already_exist":"الحساب موجود بالفعل لهذا البريد الإلكتروني.",
-  "weak_password":"كلمة المرور المُدخلة ضعيفة."
+  "weak_password":"كلمة المرور المُدخلة ضعيفة.",
+  "please_fill_all_fields":"يرجى ملء جميع الحقول",
+  "event_updated_successfully":"تم تحديث الحدث بنجاح",
+  "event_deleted_successfully":"تم حذف الحدث بنجاح",
+  "confirm_delete": "تأكيد الحذف",
+  "are_you_sure_delete_event": "هل أنت متأكد أنك تريد حذف هذا الحدث؟",
+  "cancel": "إلغاء",
+  "delete": "حذف",
+  "error_deleting_event": "حدث خطأ أثناء حذف الحدث"
+
+
+
 }
