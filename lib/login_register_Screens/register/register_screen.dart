@@ -17,17 +17,26 @@ import '../../utils/responsive.dart';
 import '../../widgets/custom_elevated_button_widget.dart';
 import '../../widgets/custom_text_form_field_widget.dart';
 
-class RegisterScreen extends StatelessWidget {
+class RegisterScreen extends StatefulWidget {
   RegisterScreen({super.key});
 
+  @override
+  State<RegisterScreen> createState() => _RegisterScreenState();
+}
+
+class _RegisterScreenState extends State<RegisterScreen> {
   final formKey = GlobalKey<FormState>();
+
   TextEditingController emailController = TextEditingController(
     text: "nouramer725@gmail.com",
   );
+
   TextEditingController passwordController = TextEditingController(
     text: "nour12345",
   );
+
   TextEditingController nameController = TextEditingController(text: "Nour");
+
   TextEditingController confirmPasswordController = TextEditingController(
     text: "nour12345",
   );

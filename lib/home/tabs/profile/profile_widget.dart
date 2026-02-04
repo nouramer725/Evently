@@ -5,7 +5,7 @@ import '../../../utils/app_colors.dart';
 import '../../../utils/app_text.dart';
 import '../../../utils/responsive.dart';
 
-class ProfileWidget extends StatelessWidget {
+class ProfileWidget extends StatefulWidget {
   final String text;
   final Widget icon;
   final Function()? onTap;
@@ -17,6 +17,11 @@ class ProfileWidget extends StatelessWidget {
     super.key,
   });
 
+  @override
+  State<ProfileWidget> createState() => _ProfileWidgetState();
+}
+
+class _ProfileWidgetState extends State<ProfileWidget> {
   bool isSwitched = false;
 
   @override
@@ -39,7 +44,7 @@ class ProfileWidget extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Text(
-            text,
+            widget.text,
             style: themeProvider.isDarkTheme()
                 ? AppText.mediumText(color: AppColors.white, fontSize: 16)
                 : AppText.mediumText(
@@ -47,7 +52,7 @@ class ProfileWidget extends StatelessWidget {
                     fontSize: 16,
                   ),
           ),
-          InkWell(onTap: onTap, child: icon),
+          InkWell(onTap: widget.onTap, child: widget.icon),
         ],
       ),
     );

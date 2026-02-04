@@ -16,20 +16,27 @@ import '../../provider/app_theme_provider.dart';
 import '../../provider/user_provider.dart';
 import '../../utils/firebase_utils.dart';
 
-class LoginScreen extends StatelessWidget {
+class LoginScreen extends StatefulWidget {
   LoginScreen({super.key});
 
+  @override
+  State<LoginScreen> createState() => _LoginScreenState();
+}
+
+class _LoginScreenState extends State<LoginScreen> {
   final formKey = GlobalKey<FormState>();
+
   TextEditingController emailController = TextEditingController(
     text: "nouramer725@gmail.com",
   );
+
   TextEditingController passwordController = TextEditingController(
     text: "nour12345",
   );
 
   @override
   Widget build(BuildContext context) {
-    var themeProvider = Provider.of<AppThemeProvider>(context);
+    var themeProvider = Provider.of<AppThemeProvider>(context, listen: false);
 
     return Scaffold(
       appBar: AppBar(
