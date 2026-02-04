@@ -384,7 +384,8 @@ class _AddEventScreenState extends State<AddEventScreen> {
       eventProvider.changeIndex(0, userProvider.currentUser!.id);
 
       await eventProvider.getAllDataFromFireBase(userProvider.currentUser!.id);
-
+      formKey.currentState!.reset();
+      setState(() {});
       Navigator.pop(context);
     } catch (e) {
       Fluttertoast.showToast(

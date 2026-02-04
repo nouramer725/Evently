@@ -315,6 +315,9 @@ class _EditScreenState extends State<EditScreen> {
 
                     await eventProvider.getAllDataFromFireBase(uId);
 
+                    formKey.currentState!.reset();
+                    setState(() {});
+
                     Navigator.pushNamedAndRemoveUntil(
                       context,
                       AppRoutes.homeScreenName,
