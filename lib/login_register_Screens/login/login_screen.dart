@@ -10,7 +10,9 @@ import 'package:evently_app/widgets/custom_text_form_field_widget.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:provider/provider.dart';
+import '../../Models/my_user.dart';
 import '../../provider/app_firebase_provider.dart';
 import '../../provider/app_theme_provider.dart';
 import '../../provider/user_provider.dart';
@@ -303,7 +305,9 @@ class _LoginScreenState extends State<LoginScreen> {
                       ),
                     ],
                   ),
-                  onPressed: () {},
+                  onPressed: () {
+                    signInWithGoogle();
+                  },
                   borderRadius: h(16),
                   verticalPadding: h(9),
                   borderColor: themeProvider.isDarkTheme()
@@ -405,4 +409,78 @@ class _LoginScreenState extends State<LoginScreen> {
       }
     }
   }
+
+  Future<UserCredential> signInWithGoogle() async {
+    try {
+      CustomFlutterToast.loadingToast(
+        context,
+        Colors.orange,
+        Colors.white,
+        ToastGravity.TOP,
+      );
+
+      final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
+
+      if (googleUser == null) {
+        throw Exception("Google sign in cancelled");
+      }
+
+      final googleAuth = await googleUser.authentication;
+
+      final credential = GoogleAuthProvider.credential(
+        accessToken: googleAuth.accessToken,
+        idToken: googleAuth.idToken,
+      );
+
+      UserCredential userCredential = await FirebaseAuth.instance
+          .signInWithCredential(credential);
+
+      var firebaseUser = userCredential.user!;
+
+      var user = await FirebaseUtils.readUserFromFirestore(firebaseUser.uid);
+
+      /// first time login
+      if (user == null) {
+        user = MyUser(
+          id: firebaseUser.uid,
+          name: firebaseUser.displayName ?? "",
+          email: firebaseUser.email ?? "",
+        );
+
+        await FirebaseUtils.addUserToFirestore(user);
+      }
+
+      var userProvider = Provider.of<UserProvider>(context, listen: false);
+      userProvider.updateUser(user);
+
+      var eventProvider = Provider.of<AppFirebaseProvider>(
+        context,
+        listen: false,
+      );
+
+      eventProvider.changeIndex(0, user.id);
+      await eventProvider.getAllDataFromFireBase(user.id);
+
+      CustomFlutterToast.successToast(
+        context,
+        Colors.green,
+        Colors.white,
+        ToastGravity.TOP,
+        AppLocalizations.of(context)!.login_success,
+      );
+
+      await Future.delayed(const Duration(seconds: 2));
+
+      Navigator.pushNamedAndRemoveUntil(
+        context,
+        AppRoutes.homeScreenName,
+            (route) => false,
+      );
+
+      return userCredential;
+    } catch (e) {
+      rethrow;
+    }
+  }
+
 }
